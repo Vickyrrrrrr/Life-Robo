@@ -1,302 +1,276 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import dynamic from "next/dynamic";
-import EditorCode from "./EditorCode";
-import { BorderBeam } from "./ui/BorderBeam";
+import { useEffect, useRef } from "react";
+import Link from "next/link";
+import RoboCanvas from "./RoboCanvas";
 
-const LaserFlow = dynamic(() => import("./ui/LaserFlow"), {
-  ssr: false,
-  loading: () => <div />,
-});
+const STATS = [
+  { value: "50+", label: "Active Members" },
+  { value: "12+", label: "Projects Built" },
+  { value: "8+",  label: "Events Hosted" },
+  { value: "3+",  label: "Years Running" },
+];
+
+const DOMAINS = [
+  "Embedded Systems",
+  "Computer Vision",
+  "Autonomous Navigation",
+  "Mechanical Design",
+  "AI & ML",
+  "PCB Design",
+];
 
 export default function Hero() {
-  const [output, setOutput] = useState("");
-  const [outputType, setOutputType] = useState<"success" | "error" | "idle">("idle");
-  const [isRunning, setIsRunning] = useState(false);
-  const outputRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  const handleRunResult = (result: { output: string; type: "success" | "error" | "idle" }) => {
-    setOutput(result.output);
-    setOutputType(result.type);
-    // Scroll to output after a tick
-    setTimeout(() => {
-      outputRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
-  };
+  // Reveal-on-scroll
+  useEffect(() => {
+    const reveals = sectionRef.current?.querySelectorAll(".reveal");
+    if (!reveals) return;
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
+      { threshold: 0.12 }
+    );
+    reveals.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Stagger hero elements in
+  useEffect(() => {
+    const load = async () => {
+      const { gsap } = await import("gsap");
+      gsap.from(".hero-stagger > *", {
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.18,
+        ease: "power3.out",
+        delay: 0.3,
+      });
+    };
+    load();
+  }, []);
 
   return (
-    <>
-      {/* FULL-SCREEN LaserFlow + Editor */}
-      <section
-        className="relative w-full overflow-hidden"
-        style={{ height: "100vh", backgroundColor: "#010008" }}
-      >
-        {/* LaserFlow — fills entire viewport, z-0 */}
-        <div className="absolute inset-0 z-0">
-          <LaserFlow
-            color="#4488ff"
-            horizontalSizing={0.51}
-            verticalSizing={1.5}
-            wispDensity={1}
-            flowSpeed={0.35}
-            flowStrength={0.25}
-            fogIntensity={0.45}
-            fogScale={0.3}
-            fogFallSpeed={0.6}
-            decay={1.1}
-            falloffStart={1.2}
-            mouseTiltStrength={0.01}
-          />
-        </div>
+    <div ref={sectionRef} className="relative min-h-screen w-full overflow-hidden circuit-noise scanlines">
+      {/* Three.js canvas background */}
+      <RoboCanvas />
 
-        {/* Ambient radial glow behind laser — adds depth like Huly */}
-        <div
-          className="absolute inset-0 z-[1] pointer-events-none"
-          style={{
-            background: `
-              radial-gradient(ellipse 40% 70% at 50% 30%, rgba(0, 80, 255, 0.08) 0%, transparent 100%),
-              radial-gradient(ellipse 60% 40% at 50% 85%, rgba(0, 40, 180, 0.06) 0%, transparent 100%)
-            `,
-          }}
-        />
-
-        {/* Subtle vignette edges for cinematic feel */}
-        <div
-          className="absolute inset-0 z-[2] pointer-events-none"
-          style={{
-            background: `
-              linear-gradient(to right, rgba(1, 0, 8, 0.4) 0%, transparent 15%, transparent 85%, rgba(1, 0, 8, 0.4) 100%)
-            `,
-          }}
-        />
-
-        {/* Hero headline — positioned in upper portion, above editor */}
-        <div
-  className="absolute z-[5] flex w-full flex-col items-start pointer-events-none"
-  style={{
-    top: "8%",
-    left: 0,
-    paddingLeft: "clamp(40px, 8vw, 160px)",
-  }}
->
-  <h1
-    style={{
-      fontFamily:
-        "'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-      fontSize: "clamp(48px, 7vw, 96px)",
-      fontWeight: 700,
-      lineHeight: 1.05,
-      letterSpacing: "-0.03em",
-      // Moving the gradient logic entirely to inline styles to avoid conflicts
-      background:
-        "linear-gradient(180deg, #ffffff 0%, #ffffff 30%, #a0a0b0 60%, #6b6b80 100%)",
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-      backgroundClip: "text",
-      maxWidth: "600px",
-    }}
-  >
-    Talk to{"\n"}machines
-  </h1>
-  <p
-    style={{
-      fontFamily:
-        "'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-      fontSize: "clamp(14px, 1.3vw, 18px)",
-      fontWeight: 400,
-      lineHeight: 1.6,
-      color: "rgba(255, 255, 255, 0.45)",
-      maxWidth: "420px",
-      marginTop: "16px",
-    }}
-  >
-    Write, compile &amp; run C/C++ code instantly — right in your browser.
-  </p>
-</div>
-
-        {/* Editor card — bottom portion, flush to bottom edge */}
-        <div className="absolute inset-0 z-[6] flex items-end justify-center pb-6 sm:pb-8">
-          <div
-            className="relative"
-            style={{
-              width: "min(900px, calc(100% - 3rem))",
-              height: "min(50vh, 560px)",
-              borderRadius: "16px 16px 0 0",
-              overflow: "hidden",
-              borderTop: "1.5px solid rgba(68, 136, 255, 0.15)",
-              borderLeft: "1.5px solid rgba(68, 136, 255, 0.15)",
-              borderRight: "1.5px solid rgba(68, 136, 255, 0.15)",
-              boxShadow: `
-                0 -10px 60px rgba(68, 136, 255, 0.07),
-                0 0 100px rgba(68, 136, 255, 0.04)
-              `,
-              background: "#020510",
-            }}
-          >
-            {/* BorderBeam animations */}
-            <BorderBeam
-              size={200}
-              duration={8}
-              colorFrom="#4488ff"
-              colorTo="#88ccff"
-              borderThickness={1}
-              beamBorderRadius={16}
-              glowIntensity={2}
-            />
-            <BorderBeam
-              size={150}
-              duration={8}
-              delay={4}
-              colorFrom="#66aaff"
-              colorTo="#4488ff"
-              borderThickness={1}
-              reverse
-              beamBorderRadius={16}
-              glowIntensity={1}
-            />
-            {/* Glow line at top of editor card */}
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
-              style={{
-                width: "50%",
-                height: "1px",
-                background: "linear-gradient(90deg, transparent 0%, rgba(100, 170, 255, 0.5) 30%, rgba(120, 190, 255, 0.8) 50%, rgba(100, 170, 255, 0.5) 70%, transparent 100%)",
-              }}
-            />
-            <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
-              style={{
-                width: "30%",
-                height: "30px",
-                background: "radial-gradient(ellipse at 50% 0%, rgba(60, 140, 255, 0.12) 0%, transparent 100%)",
-              }}
-            />
-            <EditorCode
-              onRunResult={handleRunResult}
-              isRunning={isRunning}
-              setIsRunning={setIsRunning}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* OUTPUT SECTION — below the fold, scroll to see */}
-      <section
-        ref={outputRef}
-        className="relative w-full min-h-[50vh]"
+      {/* Radial glow behind hero text */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1]"
         style={{
-          background: "linear-gradient(to bottom, #010008 0%, #000510 30%, #000818 100%)",
+          background:
+            "radial-gradient(ellipse 70% 55% at 50% 40%, rgba(0,80,180,0.13) 0%, transparent 70%)",
         }}
+      />
+
+      {/* ── Hero Content ── */}
+      <section
+        id="top"
+        className="relative z-10 flex min-h-screen flex-col items-start justify-center px-6 pt-24 pb-16 md:px-16 lg:px-24"
       >
-        {/* Top edge glow */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[2px] pointer-events-none"
-          style={{
-            background: "linear-gradient(90deg, transparent 0%, rgba(0, 110, 255, 0.5) 30%, rgba(0, 110, 255, 0.8) 50%, rgba(0, 110, 255, 0.5) 70%, transparent 100%)",
-          }}
-        />
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[40%] h-[60px] pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse at 50% 0%, rgba(0, 80, 255, 0.2) 0%, transparent 100%)",
-          }}
-        />
-
-        <div className="max-w-[900px] mx-auto px-6 pt-10 pb-16">
-          {/* Output header */}
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center gap-2">
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{
-                  backgroundColor:
-                    isRunning
-                      ? "#3b82f6"
-                      : outputType === "success"
-                      ? "#34aed3"
-                      : outputType === "error"
-                      ? "#f87171"
-                      : "#ffffff20",
-                  boxShadow:
-                    isRunning
-                      ? "0 0 10px #3b82f6"
-                      : outputType === "success"
-                      ? "0 0 10px #34d399"
-                      : outputType === "error"
-                      ? "0 0 10px #f87171"
-                      : "none",
-                }}
-              />
-              <span
-                className="text-sm font-medium tracking-wide"
-                style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Fira Code', monospace" }}
-              >
-                OUTPUT
-              </span>
-            </div>
-
-            {outputType === "success" && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full border" style={{ background: 'rgba(52, 211, 153, 0.12)', color: '#6ee7b7', borderColor: 'rgba(52, 211, 153, 0.3)' }}>
-                ✓ Compiled Successfully
-              </span>
-            )}
-            {outputType === "error" && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full border" style={{ background: 'rgba(248, 113, 113, 0.12)', color: '#fca5a5', borderColor: 'rgba(248, 113, 113, 0.3)' }}>
-                ✕ Error
-              </span>
-            )}
-            {isRunning && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 flex items-center gap-1.5">
-                <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                Running…
-              </span>
-            )}
+        <div className="hero-stagger max-w-4xl">
+          {/* Badge */}
+          <div className="pill mb-6">
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#00c8ff", display: "inline-block", animation: "pulse 2s infinite" }} />
+            FOET · University of Lucknow
           </div>
 
-          {/* Output content */}
-          <div
-            className="rounded-xl overflow-hidden"
-            style={{
-              backgroundColor: "rgba(2, 5, 16, 0.95)",
-              border: "1px solid rgba(0, 80, 220, 0.2)",
-              backdropFilter: "blur(20px)",
-              minHeight: "200px",
-              boxShadow: "0 0 40px rgba(0, 50, 180, 0.06)",
-            }}
+          {/* Headline */}
+          <h1
+            className="hero-gradient-text glow-cyan mb-4 font-bold leading-tight"
+            style={{ fontSize: "var(--text-hero)", letterSpacing: "-0.03em" }}
           >
-            <pre
-              className={`p-6 text-sm leading-relaxed overflow-auto max-h-[60vh]`}
-              style={{
-                fontFamily: "'Fira Code', monospace",
-                color:
-                  outputType === "error"
-                    ? "#fca5a5"
-                    : outputType === "success"
-                    ? "#86efac"
-                    : "rgba(255,255,255,0.25)",
-              }}
-            >
-              {isRunning ? (
-                <span className="text-blue-400/60 flex items-center gap-2">
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                  Compiling &amp; executing…
-                </span>
-              ) : output ? (
-                output
-              ) : (
-                "Press Run to see output here..."
-              )}
-            </pre>
+            Life<br />Robo
+          </h1>
+
+          {/* Sub-headline */}
+          <p
+            className="mb-4 font-medium"
+            style={{ fontSize: "var(--text-xl)", color: "rgba(232,234,246,0.75)", maxWidth: "52ch" }}
+          >
+            Where circuits meet creativity.
+          </p>
+          <p
+            style={{ fontSize: "var(--text-base)", color: "var(--color-muted)", maxWidth: "55ch", lineHeight: 1.7 }}
+            className="mb-10"
+          >
+            The official robotics club of FOET — building autonomous systems,
+            intelligent machines, and the engineers of tomorrow.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-4 mb-16">
+            <Link href="/#about" className="btn-primary">
+              Explore Club
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </Link>
+            <Link href="/#events" className="btn-ghost">
+              See Events
+            </Link>
+          </div>
+
+          {/* Stats */}
+          <div className="reveal grid grid-cols-2 gap-6 sm:grid-cols-4">
+            {STATS.map((s) => (
+              <div key={s.label} className="robo-card p-4">
+                <div className="stat-number">{s.value}</div>
+                <div style={{ fontSize: "var(--text-xs)", color: "var(--color-muted)", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
-    </>
+
+      {/* ── Domains strip ── */}
+      <section
+        id="domains"
+        className="reveal relative z-10 border-t px-6 py-10 md:px-16 lg:px-24"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <p style={{ fontSize: "var(--text-xs)", color: "var(--color-muted)", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 16 }}>
+          Domains We Work In
+        </p>
+        <div className="flex flex-wrap gap-3">
+          {DOMAINS.map((d) => (
+            <span key={d} className="pill">{d}</span>
+          ))}
+        </div>
+      </section>
+
+      {/* ── About ── */}
+      <section
+        id="about"
+        className="reveal relative z-10 border-t px-6 py-20 md:px-16 lg:px-24"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <div className="max-w-3xl">
+          <p className="pill mb-6">About Us</p>
+          <h2
+            style={{ fontSize: "var(--text-2xl)", fontWeight: 700, lineHeight: 1.2, marginBottom: 20 }}
+            className="hero-gradient-text"
+          >
+            Building the future,<br />one bot at a time.
+          </h2>
+          <p style={{ fontSize: "var(--text-base)", color: "var(--color-muted)", lineHeight: 1.85, maxWidth: "62ch" }}>
+            Life Robo is the student-run robotics and automation club at the Faculty of
+            Engineering and Technology, University of Lucknow. We bring together students
+            passionate about robotics, embedded systems, AI, and mechanical design to
+            collaborate, compete, and build real-world systems.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Events ── */}
+      <section
+        id="events"
+        className="reveal relative z-10 border-t px-6 py-20 md:px-16 lg:px-24"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <p className="pill mb-6">Events</p>
+        <h2 style={{ fontSize: "var(--text-xl)", fontWeight: 700, marginBottom: 32 }}>What We Host</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { title: "Robo Wars", desc: "Combat robotics tournament with custom-built bots.", tag: "Annual" },
+            { title: "Line Follower Sprint", desc: "Autonomous line-following bot challenge.", tag: "Semester" },
+            { title: "Hackathon", desc: "48-hour hack for hardware + software projects.", tag: "Annual" },
+            { title: "Workshop Series", desc: "Hands-on sessions on Arduino, ROS, PCB, and more.", tag: "Monthly" },
+            { title: "Project Showcase", desc: "Members present and demo their semester builds.", tag: "Semester" },
+            { title: "Guest Lectures", desc: "Industry engineers and researchers talk robotics.", tag: "Regular" },
+          ].map((ev) => (
+            <div key={ev.title} className="robo-card glow-border-hover p-6">
+              <div className="pill mb-3" style={{ fontSize: "0.65rem" }}>{ev.tag}</div>
+              <h3 style={{ fontSize: "var(--text-lg)", fontWeight: 600, marginBottom: 8 }}>{ev.title}</h3>
+              <p style={{ fontSize: "var(--text-sm)", color: "var(--color-muted)", lineHeight: 1.7 }}>{ev.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Team ── */}
+      <section
+        id="team"
+        className="reveal relative z-10 border-t px-6 py-20 md:px-16 lg:px-24"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <p className="pill mb-6">Team</p>
+        <h2 style={{ fontSize: "var(--text-xl)", fontWeight: 700, marginBottom: 32 }}>Meet the Crew</h2>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { name: "President",       role: "Club Lead" },
+            { name: "Vice President",  role: "Operations" },
+            { name: "Tech Lead",       role: "R&D" },
+            { name: "Design Lead",     role: "CAD & Mech" },
+          ].map((m) => (
+            <div key={m.name} className="robo-card glow-border-hover p-6 flex flex-col gap-3">
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: "50%",
+                  border: "1px solid rgba(0,200,255,0.3)",
+                  background: "rgba(0,200,255,0.06)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "1.4rem",
+                }}
+              >
+                🤖
+              </div>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: "var(--text-base)" }}>{m.name}</p>
+                <p style={{ fontSize: "var(--text-xs)", color: "var(--color-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>{m.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Contact ── */}
+      <section
+        id="contact"
+        className="reveal relative z-10 border-t px-6 py-20 md:px-16 lg:px-24"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <p className="pill mb-6">Contact</p>
+        <h2 style={{ fontSize: "var(--text-xl)", fontWeight: 700, marginBottom: 12 }}>Get in Touch</h2>
+        <p style={{ fontSize: "var(--text-base)", color: "var(--color-muted)", marginBottom: 32, maxWidth: "50ch" }}>
+          Interested in joining, collaborating, or sponsoring? Reach us on social media or at the club room.
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <a href="https://www.instagram.com/liferobo.foet.lu/" target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            Instagram
+          </a>
+          <a href="https://www.linkedin.com/in/roboticsclublu/" target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            LinkedIn
+          </a>
+          <a href="https://x.com/liferobo_foet/" target="_blank" rel="noopener noreferrer" className="btn-ghost">
+            X / Twitter
+          </a>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer
+        className="relative z-10 border-t px-6 py-8 md:px-16 lg:px-24"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <span style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "var(--text-xs)", color: "var(--color-muted)" }}>
+            © 2025 Life Robo · FOET, University of Lucknow
+          </span>
+          <span className="pill">Built by the club, for the club</span>
+        </div>
+      </footer>
+
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      `}</style>
+    </div>
   );
 }
