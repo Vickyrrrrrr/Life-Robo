@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import { supabase } from "../../lib/supabase";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import ChromaGrid, { type ChromaGridItem } from "./ui/ChromaGrid";
 import FlyingPosters from "./ui/FlyingPosters";
@@ -199,6 +200,32 @@ const heroCardPositionClasses = [
 
 export const AuroraHero = () => {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [trialEmail, setTrialEmail] = useState("");
+  const [trialInterest, setTrialInterest] = useState("");
+  const [submittingTrial, setSubmittingTrial] = useState(false);
+
+  const handleTrialSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!trialEmail || !trialInterest) return;
+
+    setSubmittingTrial(true);
+    try {
+      const { error } = await supabase.from('trials').insert([
+        { email: trialEmail, interest: trialInterest, status: 'pending' }
+      ]);
+
+      // Simulate network delay
+      await new Promise(r => setTimeout(r, 600));
+
+      alert("Thanks! We have received your trial request. Check your inbox soon.");
+      setTrialEmail("");
+      setTrialInterest("");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSubmittingTrial(false);
+    }
+  };
 
   return (
     <div className="gc-site">
@@ -463,13 +490,13 @@ export const AuroraHero = () => {
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8 lg:pb-20">
           <div>
             <p className="gc-eyebrow">Build With Us</p>
-            <h3 className="gc-heading-dark mt-2">Sign Up for Robotics Trials</h3>
+            <h3 className="gc-heading-dark mt-2">{submittingTrial ? "Processing..." : "Sign Up for Robotics Trials"}</h3>
             <p className="gc-copy mt-4 max-w-lg">
               Join practical sessions in electronics, CAD, embedded coding, and test-day simulation
               to prepare for real robotics challenges.
             </p>
             <button type="button" className="gc-dark-pill mt-6">
-              Sign Up for Robotics Trials
+              {submittingTrial ? "Processing..." : "Sign Up for Robotics Trials"}
             </button>
           </div>
           <div className="gc-stat-card">
@@ -711,8 +738,8 @@ export const AuroraHero = () => {
               />
             </label>
             <div className="md:col-span-2">
-              <button type="submit" className="gc-light-pill hover:scale-105 transition-transform">
-                Sign Up for Robotics Trials
+              <button type="submit" disabled={submittingTrial} className="gc-light-pill hover:scale-105 transition-transform disabled:opacity-50 disabled:hover:scale-100">
+                {submittingTrial ? "Processing..." : "Sign Up for Robotics Trials"}
               </button>
             </div>
           </form>
