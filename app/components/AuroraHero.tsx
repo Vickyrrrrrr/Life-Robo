@@ -554,17 +554,19 @@ export const AuroraHero = () => {
               Competition snapshots, workshop moments, and live demo highlights from club activities.
             </p>
 
-            <div className="mt-12 w-full overflow-hidden relative">
-              <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-[#06060c] to-transparent z-10"></div>
-              <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-[#06060c] to-transparent z-10"></div>
-              <div className="flex w-max animate-scroll">
-                {[...eventPosters, ...eventPosters].map((src, i) => (
-                  <div key={i} className="flex-shrink-0 w-72 h-48 mx-3 rounded-2xl overflow-hidden border border-white/10 group cursor-pointer">
-                    <img src={src} alt="Event" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                  </div>
-                ))}
-              </div>
+            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+              {eventPosters.slice(0, 4).map((src, i) => (
+                <div key={i} className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 group cursor-pointer shadow-lg">
+                  <img src={src} alt="Event" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#06060c]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              ))}
             </div>
+            <div className="mt-8 flex justify-end">
+              <Link href="/gallery" className="inline-flex items-center gap-2 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors">
+                View full gallery <ArrowRight size={14} />
+              </Link>
+            </div>>
           </article>
         </div>
       </section>
@@ -576,6 +578,11 @@ export const AuroraHero = () => {
             <h3 className="mt-2 text-center text-4xl font-semibold text-white sm:text-5xl">
               Explore Our Build Spaces
             </h3>
+            <div className="flex justify-center mt-6">
+              <Link href="/my-idea" className="gc-light-pill px-6 py-2.5 bg-blue-600/20 text-blue-300 border border-blue-500/30 hover:bg-blue-600/40 hover:text-white transition-all rounded-full text-sm font-medium hover:scale-105 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
+                Submit My Idea
+              </Link>
+            </div>
             <div className="gc-map-placeholder mt-10">
               <div className="gc-profile-node">
                 <div className="gc-profile-avatar">
