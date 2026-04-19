@@ -555,16 +555,16 @@ export const AuroraHero = () => {
               Competition snapshots, workshop moments, and live demo highlights from club activities.
             </p>
 
-            <div className="gc-events-stage">
-              <FlyingPosters
-                items={eventPosters}
-                planeWidth={320}
-                planeHeight={320}
-                distortion={3}
-                scrollEase={0.01}
-                cameraFov={45}
-                cameraZ={20}
-              />
+            <div className="mt-12 w-full overflow-hidden relative">
+              <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-[#06060c] to-transparent z-10"></div>
+              <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-[#06060c] to-transparent z-10"></div>
+              <div className="flex w-max animate-scroll">
+                {[...eventPosters, ...eventPosters].map((src, i) => (
+                  <div key={i} className="flex-shrink-0 w-72 h-48 mx-3 rounded-2xl overflow-hidden border border-white/10 group cursor-pointer">
+                    <img src={src} alt="Event" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  </div>
+                ))}
+              </div>
             </div>
           </article>
         </div>
