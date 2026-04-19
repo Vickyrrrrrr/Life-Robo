@@ -194,7 +194,7 @@ export const AuroraHero = () => {
   return (
     <div className="gc-site">
       <section className="border-b border-[#c9d8ff] bg-gradient-to-r from-[#f3f7ff] via-[#eaf1ff] to-[#f6f9ff]">
-        <div className="mx-auto grid max-w-7xl items-center gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
+        <div className="mx-auto grid max-w-6xl items-center gap-4 px-4 py-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#1a3cab]">
               Today&apos;s Notification
@@ -223,9 +223,9 @@ export const AuroraHero = () => {
         <div className="global-creative-grid pointer-events-none absolute inset-0 z-[1]" />
         <div className="global-creative-glow pointer-events-none absolute inset-0 z-[2]" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:px-8">
+        <div className="relative z-10 mx-auto max-w-6xl px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:px-8">
           <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.04fr] lg:gap-12">
-            <div className="relative max-w-2xl pt-1 text-center lg:pt-8 lg:text-left">
+            <div className="relative max-w-xl pt-1 text-center lg:pt-8 lg:text-left">
               <p className="inline-flex items-center justify-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-blue-100/90 lg:justify-start">
                 <span className="h-1.5 w-1.5 rounded-full bg-blue-100" />
                 Robotics Club
@@ -234,7 +234,7 @@ export const AuroraHero = () => {
                 Innovate.
                 <span className="block text-[#f3f8ff]">Build. Compete.</span>
               </h1>
-              <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-blue-100/85 sm:text-lg lg:mx-0">
+              <p className="mx-auto mt-5 max-w-lg text-base leading-relaxed text-blue-100/85 sm:text-lg lg:mx-0">
                 Where Robots Are Built and Ideas Come Alive
               </p>
 
@@ -324,7 +324,7 @@ export const AuroraHero = () => {
       </section>
 
       <section id="about" className="gc-section gc-section-light">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-20">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-20">
           <div className="gc-orbit-placeholder">
             <img
               src={repoEventImages[5]}
@@ -353,7 +353,7 @@ export const AuroraHero = () => {
       </section>
 
       <section id="works" className="gc-section gc-section-light pt-0">
-        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <p className="gc-eyebrow text-center">Our Robots &amp; Projects</p>
           <h3 className="gc-heading-dark mt-2 text-center">Build Portfolio</h3>
 
@@ -408,7 +408,7 @@ export const AuroraHero = () => {
       </section>
 
       <section id="gallery" className="gc-section gc-section-soft pt-0">
-        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <p className="gc-eyebrow text-center">Gallery</p>
           <h3 className="gc-heading-dark mt-2 text-center">Build Sessions &amp; Robot Trials</h3>
           <div className="gc-gallery-grid mt-8">
@@ -422,11 +422,11 @@ export const AuroraHero = () => {
       </section>
 
       <section id="team" className="gc-section gc-section-light pt-0">
-        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <div className="mb-8">
             <p className="gc-eyebrow">Club Members &amp; Mentors</p>
             <h3 className="gc-heading-dark mt-2">Meet the Robotics Team</h3>
-            <p className="gc-copy mt-3 max-w-2xl">
+            <p className="gc-copy mt-3 max-w-xl">
               Cross-functional builders handling mechanics, embedded systems, computer vision,
               and strategy for competitions.
             </p>
@@ -447,11 +447,11 @@ export const AuroraHero = () => {
       </section>
 
       <section className="gc-section gc-section-light pt-0">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8 lg:pb-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8 lg:pb-20">
           <div>
             <p className="gc-eyebrow">Build With Us</p>
             <h3 className="gc-heading-dark mt-2">Sign Up for Robotics Trials</h3>
-            <p className="gc-copy mt-4 max-w-xl">
+            <p className="gc-copy mt-4 max-w-lg">
               Join practical sessions in electronics, CAD, embedded coding, and test-day simulation
               to prepare for real robotics challenges.
             </p>
@@ -470,11 +470,11 @@ export const AuroraHero = () => {
       </section>
 
       <section className="gc-section gc-section-light pt-0">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:pb-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:pb-20">
           <div>
             <p className="gc-eyebrow">Interactive Preview</p>
             <h3 className="gc-heading-dark mt-2">Robot Design Iterations</h3>
-            <p className="gc-copy mt-4 max-w-xl">
+            <p className="gc-copy mt-4 max-w-lg">
               Scroll through concept stacks to review mechanical layout, wiring strategy,
               and control model updates.
             </p>
@@ -507,7 +507,7 @@ export const AuroraHero = () => {
       </section>
 
       <section id="services" className="gc-section gc-section-dark">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <p className="gc-eyebrow !text-blue-200/80">Workshops &amp; Training</p>
           <h3 className="mt-2 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
             Robotics Learning Tracks
@@ -535,13 +535,13 @@ export const AuroraHero = () => {
       </section>
 
       <section id="events" className="gc-section gc-section-dark pt-0">
-        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <article className="gc-events-card">
             <p className="gc-eyebrow !text-blue-200/80">Events</p>
             <h3 className="mt-2 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
               Robotics Event Wall
             </h3>
-            <p className="mt-3 max-w-2xl text-sm text-blue-100/80">
+            <p className="mt-3 max-w-xl text-sm text-blue-100/80">
               Competition snapshots, workshop moments, and live demo highlights from club activities.
             </p>
 
@@ -561,7 +561,7 @@ export const AuroraHero = () => {
       </section>
 
       <section id="places" className="gc-section gc-section-dark pt-0">
-        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <article className="gc-map-card">
             <p className="gc-eyebrow !text-blue-200/80 text-center">Lab Network</p>
             <h3 className="mt-2 text-center text-4xl font-semibold text-white sm:text-5xl">
@@ -586,7 +586,7 @@ export const AuroraHero = () => {
       </section>
 
       <section className="gc-section gc-section-light pt-0">
-        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <p className="gc-eyebrow">Workflow</p>
           <h3 className="gc-heading-dark mt-2">How We Build</h3>
 
@@ -612,7 +612,7 @@ export const AuroraHero = () => {
       </section>
 
       <section className="gc-section gc-section-soft">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <p className="gc-eyebrow text-center">Club Members &amp; Mentors</p>
           <h3 className="gc-heading-dark mt-2 text-center">What Our Team Says</h3>
 
@@ -637,7 +637,7 @@ export const AuroraHero = () => {
       </section>
 
       <section id="blogs" className="gc-section gc-section-light pt-0">
-        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+        <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <p className="gc-eyebrow">From Blog</p>
           <h3 className="gc-heading-dark mt-2">Explore Robotics Logs</h3>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -661,10 +661,10 @@ export const AuroraHero = () => {
       </section>
 
       <footer id="contact" className="gc-footer">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
           <p className="gc-eyebrow !text-blue-200/80">Connect with the Robotics Club</p>
           <h3 className="mt-2 text-5xl font-semibold text-white sm:text-6xl">Build With Us</h3>
-          <p className="mt-4 max-w-2xl text-sm text-blue-100/80">
+          <p className="mt-4 max-w-xl text-sm text-blue-100/80">
             Share your details and we will guide you to the right robotics track.
           </p>
 
@@ -693,7 +693,7 @@ export const AuroraHero = () => {
               />
             </label>
             <div className="md:col-span-2">
-              <button type="button" className="gc-light-pill">
+              <button type="button" className="gc-light-pill hover:scale-105 transition-transform">
                 Sign Up for Robotics Trials
               </button>
             </div>
