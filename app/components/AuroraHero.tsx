@@ -199,7 +199,6 @@ const heroCardPositionClasses = [
 
 export const AuroraHero = () => {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [activeFilter, setActiveFilter] = useState("All");
 
   return (
     <div className="gc-site">
