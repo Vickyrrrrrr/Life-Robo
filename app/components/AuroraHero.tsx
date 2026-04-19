@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import ChromaGrid, { type ChromaGridItem } from "./ui/ChromaGrid";
 import FlyingPosters from "./ui/FlyingPosters";
+import { motion } from "framer-motion";
 import CardSwap, { Card } from "./ui/CardSwap";
 
 const workFilters = ["All", "Rovers", "Line Followers", "Battle Bots", "Automation"];
@@ -35,15 +36,23 @@ const overYears = [
 const projectHighlights = [
   {
     title: "Autonomous Rover Build",
+    category: "Rovers",
     description: "Terrain-aware rover with sensor fusion, waypoint logic, and obstacle avoidance.",
   },
   {
     title: "Line-Following Bot Challenge",
+    category: "Line Followers",
     description: "High-speed PID tuning and IR sensor calibration for track stability.",
   },
   {
     title: "Battle Bots Season Entry",
+    category: "Battle Bots",
     description: "Custom chassis, impact-tolerant mechanics, and competition strategy drills.",
+  },
+  {
+    title: "Smart Home Integration",
+    description: "Arduino-based lab automation and IoT lighting control.",
+    category: "Automation",
   },
 ];
 
@@ -189,6 +198,7 @@ const heroCardPositionClasses = [
 ];
 
 export const AuroraHero = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
   const [activeFilter, setActiveFilter] = useState("All");
 
   return (
@@ -668,7 +678,7 @@ export const AuroraHero = () => {
             Share your details and we will guide you to the right robotics track.
           </p>
 
-          <form className="mt-8 grid gap-4 md:grid-cols-2">
+          <form className="mt-8 grid gap-4 md:grid-cols-2" onSubmit={(e) => { e.preventDefault(); alert("Thanks! We have received your trial request."); }}>
             <label className="text-sm text-blue-100/85">
               Name
               <input
@@ -693,7 +703,7 @@ export const AuroraHero = () => {
               />
             </label>
             <div className="md:col-span-2">
-              <button type="button" className="gc-light-pill hover:scale-105 transition-transform">
+              <button type="submit" className="gc-light-pill hover:scale-105 transition-transform">
                 Sign Up for Robotics Trials
               </button>
             </div>
