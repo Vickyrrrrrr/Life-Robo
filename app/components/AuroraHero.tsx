@@ -253,21 +253,19 @@ export const AuroraHero = () => {
               </div>
 
               <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
-                <Link
-                  href="#contact"
+                <a href="#contact"
                   className="inline-flex items-center gap-3 rounded-full bg-black px-6 py-3 text-sm font-medium text-white shadow-[0_8px_24px_rgba(0,0,0,0.3)] ring-1 ring-blue-200/10 transition hover:bg-black/90"
                 >
                   Join the Robotics Club
                   <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-black">
                     <ArrowRight className="h-4 w-4" />
                   </span>
-                </Link>
-                <Link
-                  href="#works"
+                </a>
+                <a href="#works"
                   className="inline-flex items-center justify-center rounded-full bg-white/22 px-7 py-3 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur-sm transition hover:bg-white/30"
                 >
                   Our Robots &amp; Projects
-                </Link>
+                </a>
               </div>
             </div>
 
@@ -584,9 +582,9 @@ export const AuroraHero = () => {
               Explore Our Build Spaces
             </h3>
             <div className="flex justify-center mt-6">
-              <Link href="/my-idea" className="gc-light-pill px-6 py-2.5 bg-blue-600/20 text-blue-300 border border-blue-500/30 hover:bg-blue-600/40 hover:text-white transition-all rounded-full text-sm font-medium hover:scale-105 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
+              <a href="/my-idea" className="gc-light-pill px-6 py-2.5 bg-blue-600/20 text-blue-300 border border-blue-500/30 hover:bg-blue-600/40 hover:text-white transition-all rounded-full text-sm font-medium hover:scale-105 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
                 Submit My Idea
-              </Link>
+              </a>
             </div>
             <div className="gc-map-placeholder mt-10">
               <div className="gc-profile-node">
@@ -669,12 +667,11 @@ export const AuroraHero = () => {
                 </div>
                 <p className="mt-3 text-xs text-slate-500">{blog.date}</p>
                 <h4 className="mt-1 text-lg font-medium text-slate-900">{blog.title}</h4>
-                <Link
-                  href="#"
+                <a href="#"
                   className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#1f42d9]"
                 >
                   Read More <ArrowRight className="h-4 w-4" />
-                </Link>
+                </a>
               </article>
             ))}
           </div>
