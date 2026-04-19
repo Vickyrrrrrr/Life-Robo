@@ -16,9 +16,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Life Robo | Robotics Club — FOET, University of Lucknow",
+  title: "Life Robo | Robotics Club · FOET LU",
   description:
-    "Life Robo is the student-led robotics club at FOET, University of Lucknow. We build robots, run workshops, and compete in national-level competitions.",
+    "Life Robo is the robotics club of FOET, University of Lucknow — building robots, running workshops, and competing in national-level robotics events.",
 };
 
 export default function RootLayout({
