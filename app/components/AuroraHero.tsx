@@ -560,18 +560,17 @@ export const AuroraHero = () => {
               Competition snapshots, workshop moments, and live demo highlights from club activities.
             </p>
 
-            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {eventPosters.slice(0, 4).map((src, i) => (
-                <div key={i} className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 group cursor-pointer shadow-lg">
-                  <img src={src} alt="Event" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#06060c]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 flex justify-end">
-              <Link href="/gallery" className="inline-flex items-center gap-2 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors">
-                View full gallery <ArrowRight size={14} />
-              </Link>
+            <div className="mt-12 w-full overflow-hidden relative group/marquee">
+              <div className="absolute left-0 top-0 w-16 md:w-48 h-full bg-gradient-to-r from-[#06060c] to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute right-0 top-0 w-16 md:w-48 h-full bg-gradient-to-l from-[#06060c] to-transparent z-10 pointer-events-none"></div>
+              <div className="flex w-max animate-scroll group-hover/marquee:[animation-play-state:paused]">
+                {[...eventPosters, ...eventPosters, ...eventPosters].map((src, i) => (
+                  <div key={i} className="flex-shrink-0 w-64 md:w-80 h-40 md:h-52 mx-3 rounded-2xl overflow-hidden border border-white/10 group/card cursor-pointer relative shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                    <div className="absolute inset-0 bg-blue-900/20 opacity-0 group-hover/card:opacity-100 transition-opacity z-10 mix-blend-overlay pointer-events-none"></div>
+                    <img src={src} alt="Robotics Event" className="w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out" />
+                  </div>
+                ))}
+              </div>
             </div>>
           </article>
         </div>
