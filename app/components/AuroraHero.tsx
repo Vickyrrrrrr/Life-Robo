@@ -571,7 +571,7 @@ export const AuroraHero = () => {
                   </div>
                 ))}
               </div>
-            </div>>
+            </div>
           </article>
         </div>
       </section>
