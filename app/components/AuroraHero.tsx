@@ -420,12 +420,18 @@ export const AuroraHero = () => {
         <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <p className="gc-eyebrow text-center">Gallery</p>
           <h3 className="gc-heading-dark mt-2 text-center">Build Sessions &amp; Robot Trials</h3>
-          <div className="gc-gallery-grid mt-8">
-            {galleryImages.map((image) => (
-              <figure key={image.src} className="gc-gallery-item">
-                <img src={image.src} alt={image.alt} loading="lazy" />
+          <div className="gc-gallery-grid mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {galleryImages.slice(0, 4).map((image) => (
+              <figure key={image.src} className="gc-gallery-item rounded-xl overflow-hidden border border-white/10 aspect-video relative group">
+                <div className="absolute inset-0 bg-blue-900/20 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+                <img src={image.src} alt={image.alt} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
               </figure>
             ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <a href="/gallery" className="inline-flex items-center gap-2 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors bg-blue-500/10 px-6 py-2.5 rounded-full border border-blue-500/20 hover:border-blue-500/40 shadow-[0_0_15px_rgba(37,99,235,0.1)] hover:scale-105 transform duration-300">
+              View Full Gallery <ArrowRight size={14} />
+            </a>
           </div>
         </div>
       </section>
