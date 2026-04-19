@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const links = [
-  { label: "About",    href: "/#about" },
+  { label: "About", href: "/#about" },
   { label: "Programs", href: "/#programs" },
   { label: "Projects", href: "/#projects" },
-  { label: "Gallery",  href: "/#gallery" },
-  { label: "Team",     href: "/#team" },
-  { label: "Contact",  href: "/#contact" },
+  { label: "Gallery", href: "/#gallery" },
+  { label: "Team", href: "/#team" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
@@ -32,7 +32,7 @@ export default function Navbar() {
   return (
     <header className={`site-header${scrolled ? " site-header--scrolled" : ""}`}>
       <div className="shell nav-shell">
-        <Link href="/#top" className="brand-mark" aria-label="Life Robo home">
+        <Link href="/#top" className="brand-mark" aria-label="Life Robo — go to home">
           <span className="brand-mark__icon" aria-hidden="true">LR</span>
           <span className="brand-mark__text">
             <strong>Life Robo</strong>
@@ -41,20 +41,26 @@ export default function Navbar() {
         </Link>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
-          {links.map((l) => (
-            <a key={l.href} href={l.href}>{l.label}</a>
+          {links.map((link) => (
+            <a key={link.href} href={link.href} className="nav-link">
+              {link.label}
+            </a>
           ))}
         </nav>
 
         <div className="nav-actions">
-          <Link href="/editor" className="nav-secondary-btn">Open IDE</Link>
-          <a href="/#contact" className="nav-cta">Join the club</a>
+          <Link href="/editor" className="btn btn--ghost">
+            Open IDE
+          </Link>
+          <a href="/#contact" className="btn btn--primary">
+            Join the club
+          </a>
           <button
             type="button"
             className="mobile-toggle"
             aria-expanded={open}
             aria-controls="mobile-menu"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X size={18} /> : <Menu size={18} />}
@@ -68,11 +74,28 @@ export default function Navbar() {
         aria-hidden={!open}
       >
         <nav className="mobile-panel__nav" aria-label="Mobile navigation">
-          {links.map((l) => (
-            <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="mobile-nav-link"
+              onClick={() => setOpen(false)}
+            >
+              {link.label}
+            </a>
           ))}
-          <Link href="/editor" onClick={() => setOpen(false)}>Open IDE</Link>
-          <a href="/#contact" className="nav-cta mobile-cta" onClick={() => setOpen(false)}>
+          <Link
+            href="/editor"
+            className="mobile-nav-link"
+            onClick={() => setOpen(false)}
+          >
+            Open IDE
+          </Link>
+          <a
+            href="/#contact"
+            className="btn btn--primary mobile-cta"
+            onClick={() => setOpen(false)}
+          >
             Apply now
           </a>
         </nav>
