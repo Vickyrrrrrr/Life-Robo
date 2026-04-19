@@ -1,47 +1,82 @@
 "use client";
 
-import React from "react";
-import StaggeredMenu, { type StaggeredMenuItem, type StaggeredSocialItem } from "./ui/StaggeredMenu";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 
-const menuItems: StaggeredMenuItem[] = [
-  { label: "Home", ariaLabel: "Go to home section", link: "/#top" },
-  { label: "About", ariaLabel: "Go to about section", link: "/#about" },
-  { label: "Events", ariaLabel: "Go to events section", link: "/#events" },
-  { label: "Gallery", ariaLabel: "Go to gallery section", link: "/#gallery" },
-  { label: "Team", ariaLabel: "Go to team section", link: "/#team" },
-  { label: "Contact", ariaLabel: "Go to contact section", link: "/#contact" },
-  { label: "My IDE", ariaLabel: "Open IDE", link: "/editor" },
+const links = [
+  { label: "About",    href: "/#about" },
+  { label: "Programs", href: "/#programs" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Gallery",  href: "/#gallery" },
+  { label: "Team",     href: "/#team" },
+  { label: "Contact",  href: "/#contact" },
 ];
 
-const socialItems: StaggeredSocialItem[] = [
-  { label: "Instagram", link: "https://www.instagram.com/liferobo.foet.lu/" },
-  { label: "LinkedIn", link: "https://www.linkedin.com/in/roboticsclublu/" },
-  { label: "X", link: "https://x.com/liferobo_foet/" },
-];
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-const Navbar = () => {
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
   return (
-    <StaggeredMenu
-      position="right"
-      items={menuItems}
-      socialItems={socialItems}
-      displaySocials
-      displayItemNumbering
-      menuButtonColor="#e7edff"
-      openMenuButtonColor="#ffffff"
-      changeMenuColorOnOpen
-      colors={["#0a1035", "#2444da"]}
-      logoUrl="/next.svg"
-      accentColor="#4f6dff"
-      isFixed
-      onMenuOpen={() => {
-        // Intentionally no-op; kept for future telemetry hook.
-      }}
-      onMenuClose={() => {
-        // Intentionally no-op; kept for future telemetry hook.
-      }}
-    />
-  );
-};
+    <header className={`site-header${scrolled ? " site-header--scrolled" : ""}`}>
+      <div className="shell nav-shell">
+        <Link href="/#top" className="brand-mark" aria-label="Life Robo home">
+          <span className="brand-mark__icon" aria-hidden="true">LR</span>
+          <span className="brand-mark__text">
+            <strong>Life Robo</strong>
+            <small>Robotics Club · FOET LU</small>
+          </span>
+        </Link>
 
-export default Navbar;
+        <nav className="desktop-nav" aria-label="Primary navigation">
+          {links.map((l) => (
+            <a key={l.href} href={l.href}>{l.label}</a>
+          ))}
+        </nav>
+
+        <div className="nav-actions">
+          <Link href="/editor" className="nav-secondary-btn">Open IDE</Link>
+          <a href="/#contact" className="nav-cta">Join the club</a>
+          <button
+            type="button"
+            className="mobile-toggle"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="mobile-menu"
+        className={`mobile-panel${open ? " is-open" : ""}`}
+        aria-hidden={!open}
+      >
+        <nav className="mobile-panel__nav" aria-label="Mobile navigation">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
+          ))}
+          <Link href="/editor" onClick={() => setOpen(false)}>Open IDE</Link>
+          <a href="/#contact" className="nav-cta mobile-cta" onClick={() => setOpen(false)}>
+            Apply now
+          </a>
+        </nav>
+      </div>
+    </header>
+  );
+}
